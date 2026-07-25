@@ -129,7 +129,7 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
 
       {filtered.length === 0 ? (
         <div className="rounded-card border border-dashed border-line bg-surface px-6 py-16 text-center">
-          <p className="font-display text-lg text-ink">条件に合う山小屋が見つかりませんでした</p>
+          <p className="font-display text-lg font-bold text-ink">条件に合う山小屋が見つかりませんでした</p>
           <p className="mt-2 text-sm text-muted">
             エリアや標高帯を広げるか、検索キーワードを短くしてみてください。
           </p>
