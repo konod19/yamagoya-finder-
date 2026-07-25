@@ -105,6 +105,12 @@ export default function HutCard({ hut }: { hut: Hut }) {
           <ContourPlaceholder tier={tier} />
         )}
 
+        {hut.image_url && hut.image_credit && (
+          <span className="absolute bottom-1.5 right-2 rounded-sm bg-ink/50 px-1.5 py-0.5 text-[10px] text-mist/90 backdrop-blur-sm">
+            Photo: {hut.image_credit}
+          </span>
+        )}
+
         <span
           className="absolute left-3 top-3 flex items-center gap-1.5 rounded-sm bg-ink/60 px-2.5 py-1 text-[11px] font-medium text-mist backdrop-blur-sm"
           title="この小屋の情報の信頼度の目安です"

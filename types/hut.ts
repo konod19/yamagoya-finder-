@@ -18,6 +18,7 @@ export type Hut = {
   price_text: string | null;
   correction_note: string | null;
   image_url: string | null;
+  image_credit: string | null;
   difficulty_tier: string | null;
   hazard_tags: string[];
   summit_time_hours_text: string | null;
