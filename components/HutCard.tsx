@@ -125,22 +125,22 @@ export default function HutCard({ hut }: { hut: Hut }) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-extrabold leading-snug text-ink">{hut.name}</h3>
+        <h3 className="font-display text-lg font-extrabold leading-snug text-ink">
+          {hut.name}
+          {hut.hut_elevation_text && (
+            <span className="ml-2 text-sm font-semibold text-muted">
+              山小屋の標高 {hut.hut_elevation_text}m
+            </span>
+          )}
+        </h3>
         <p className="mt-1 text-sm text-muted">
           {hut.area}
           {hut.mountain_name ? ` ・ ${hut.mountain_name}` : ""}
+          {hut.summit_elevation_text && ` ・ 山頂 ${hut.summit_elevation_text}m`}
         </p>
 
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-sm bg-pine/10 px-2.5 py-1 font-semibold tabular-nums text-pine">
-            {tier}
-            {hut.hut_elevation_text ? `(${hut.hut_elevation_text}m)` : ""}
-          </span>
-          {hut.summit_elevation_text && (
-            <span className="rounded-sm bg-mist px-2.5 py-1 text-muted">
-              山頂 {hut.summit_elevation_text}m
-            </span>
-          )}
+          <span className="rounded-sm bg-pine/10 px-2.5 py-1 font-semibold text-pine">{tier}</span>
           {difficulty !== "不明" && (
             <span className={DIFFICULTY_BADGE_CLASS[difficulty]}>難易度: {difficulty}</span>
           )}
