@@ -23,18 +23,16 @@ export default async function Home() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
       <header className="mb-12">
-        <div className="mb-4 flex items-center gap-2 text-xs uppercase tracking-wider text-ochre">
-          <span className="h-2 w-2 rounded-full bg-ochre" aria-hidden="true" />
-          日本の山小屋データベース
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-trail/10 px-3 py-1 text-xs font-semibold text-trail-dark">
+          <span className="h-1.5 w-1.5 rounded-full bg-trail" aria-hidden="true" />
+          日本の山小屋データベース ・ {huts.length}件掲載中
         </div>
-        <h1 className="font-display text-4xl italic leading-tight text-ink sm:text-5xl">
+        <h1 className="font-display text-4xl font-extrabold leading-[1.15] tracking-tight text-ink sm:text-5xl">
           あなたに合う山小屋を、
-          <br />
-          迷わず見つける。
+          <span className="text-pine">迷わず見つける。</span>
         </h1>
         <p className="mt-4 max-w-xl text-base text-muted">
           エリア・標高・水場・電波の条件で絞り込んで、次の登山で泊まりやすい山小屋を探せます。
-          全国 {huts.length} 件の山小屋データを掲載中。
         </p>
       </header>
 
