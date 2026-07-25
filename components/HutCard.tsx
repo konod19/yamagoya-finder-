@@ -6,11 +6,11 @@ const CONFIDENCE_DOT: Record<string, string> = {
   低: "bg-blaze-low",
 };
 
-const TIER_GRADIENT: Record<string, string> = {
-  低山: "from-tier-low/70 to-tier-low/30",
-  中山: "from-tier-mid/70 to-tier-mid/30",
-  高山: "from-tier-high/70 to-tier-high/30",
-  不明: "from-muted/50 to-muted/20",
+const TIER_STROKE: Record<string, string> = {
+  低山: "#5F8A55",
+  中山: "#3A6FA0",
+  高山: "#5A4C82",
+  不明: "#9C978A",
 };
 
 function DropIcon() {
@@ -37,11 +37,22 @@ function SignalIcon() {
   );
 }
 
-function MountainGlyph() {
+/** 等高線(トポグラフィックコンター)モチーフのプレースホルダー */
+function ContourPlaceholder({ tier }: { tier: string }) {
+  const stroke = TIER_STROKE[tier] ?? TIER_STROKE["不明"];
   return (
-    <svg viewBox="0 0 200 100" className="absolute inset-x-0 bottom-0 h-full w-full" aria-hidden="true">
-      <polygon points="0,100 55,35 90,65 130,15 200,100" fill="rgba(255,255,255,0.22)" />
-      <polygon points="0,100 40,55 80,100" fill="rgba(255,255,255,0.15)" />
+    <svg viewBox="0 0 400 160" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="400" height="160" fill="#EDEBE6" />
+      {[0, 1, 2, 3, 4, 5].map((i) => (
+        <path
+          key={i}
+          d={`M-20,${150 - i * 22} C 80,${100 - i * 24} 160,${190 - i * 26} 240,${110 - i * 22} S 380,${150 - i * 20} 440,${90 - i * 22}`}
+          fill="none"
+          stroke={stroke}
+          strokeWidth={i === 2 ? 2 : 1}
+          opacity={0.18 + i * 0.1}
+        />
+      ))}
     </svg>
   );
 }
@@ -55,7 +66,7 @@ export default function HutCard({ hut }: { hut: Hut }) {
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-card border border-line bg-surface transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
-      <div className={`relative h-36 w-full overflow-hidden bg-gradient-to-br ${TIER_GRADIENT[tier]}`}>
+      <div className="relative h-36 w-full overflow-hidden">
         {hut.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -65,36 +76,36 @@ export default function HutCard({ hut }: { hut: Hut }) {
             loading="lazy"
           />
         ) : (
-          <MountainGlyph />
+          <ContourPlaceholder tier={tier} />
         )}
 
         <span
-          className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-ink/55 px-2.5 py-1 text-[11px] font-medium text-mist backdrop-blur-sm"
+          className="absolute left-3 top-3 flex items-center gap-1.5 rounded-sm bg-ink/60 px-2.5 py-1 text-[11px] font-medium text-mist backdrop-blur-sm"
           title="この小屋の情報の信頼度の目安です"
         >
           <span className={`h-1.5 w-1.5 rounded-full ${confidenceDot}`} aria-hidden="true" />
           情報確度: {hut.information_confidence ?? "低"}
         </span>
 
-        <span className="absolute right-3 top-3 rounded-full bg-trail px-3 py-1 text-xs font-bold text-white shadow-sm">
+        <span className="absolute right-3 top-3 rounded-sm bg-trail px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm">
           {priceBadge ?? "料金要確認"}
         </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-bold leading-snug text-ink">{hut.name}</h3>
+        <h3 className="font-display text-lg font-extrabold leading-snug text-ink">{hut.name}</h3>
         <p className="mt-1 text-sm text-muted">
           {hut.area}
           {hut.mountain_name ? ` ・ ${hut.mountain_name}` : ""}
         </p>
 
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-pine/10 px-2.5 py-1 font-semibold tabular-nums text-pine">
+          <span className="rounded-sm bg-pine/10 px-2.5 py-1 font-semibold tabular-nums text-pine">
             {tier}
             {hut.elevation_text ? `(${hut.elevation_text}m)` : ""}
           </span>
           {hut.operating_period && (
-            <span className="rounded-full bg-mist px-2.5 py-1 text-muted">{hut.operating_period}</span>
+            <span className="rounded-sm bg-mist px-2.5 py-1 text-muted">{hut.operating_period}</span>
           )}
         </div>
 
@@ -133,7 +144,7 @@ export default function HutCard({ hut }: { hut: Hut }) {
             href={hut.website_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="focus-ring mt-4 inline-flex items-center justify-center rounded-full bg-pine px-4 py-2.5 text-sm font-semibold text-mist transition-colors hover:bg-pine-dark"
+            className="focus-ring mt-4 inline-flex items-center justify-center rounded-sm bg-pine px-4 py-2.5 text-sm font-semibold text-mist transition-colors hover:bg-pine-dark"
           >
             公式サイトを見る
           </a>

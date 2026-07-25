@@ -117,7 +117,7 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
           {hasActiveFilters && (
             <button
               onClick={resetFilters}
-              className="focus-ring ml-auto rounded-full border border-line px-3 py-1.5 text-xs text-muted hover:border-pine hover:text-pine"
+              className="focus-ring ml-auto rounded-sm border border-line px-3 py-1.5 text-xs text-muted hover:border-pine hover:text-pine"
             >
               条件をリセット
             </button>
@@ -135,7 +135,7 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
           </p>
           <button
             onClick={resetFilters}
-            className="focus-ring mt-5 rounded-full bg-pine px-5 py-2 text-sm text-mist hover:bg-pine-dark"
+            className="focus-ring mt-5 rounded-sm bg-pine px-5 py-2 text-sm font-semibold text-mist hover:bg-pine-dark"
           >
             条件をリセット
           </button>

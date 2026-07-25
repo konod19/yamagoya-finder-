@@ -10,17 +10,21 @@ const config: Config = {
       colors: {
         mist: "#F6F4EE",
         surface: "#FFFFFF",
-        ink: "#21281F",
-        muted: "#6E6A5E",
+        ink: "#16181A",
+        muted: "#69675F",
+        charcoal: {
+          DEFAULT: "#16181A",
+          light: "#24272A",
+        },
         pine: {
-          DEFAULT: "#2C4A3B",
-          light: "#3E6350",
-          dark: "#1B2F25",
+          DEFAULT: "#2B3A2E",
+          light: "#3E5340",
+          dark: "#1B2519",
         },
         trail: {
-          DEFAULT: "#E2572B",
-          light: "#F0946B",
-          dark: "#B8431E",
+          DEFAULT: "#E8391C",
+          light: "#F26A4B",
+          dark: "#B82C13",
         },
         line: "#E4E0D4",
         blaze: {
@@ -29,17 +33,17 @@ const config: Config = {
           low: "#9C978A",
         },
         tier: {
-          low: "#7FA65C",
-          mid: "#3E7DB8",
-          high: "#5B4E8C",
+          low: "#5F8A55",
+          mid: "#3A6FA0",
+          high: "#5A4C82",
         },
       },
       fontFamily: {
-        display: ["var(--font-jakarta)", "sans-serif"],
+        display: ["var(--font-archivo)", "sans-serif"],
         sans: ["var(--font-inter)", "sans-serif"],
       },
       borderRadius: {
-        card: "18px",
+        card: "8px",
       },
     },
   },

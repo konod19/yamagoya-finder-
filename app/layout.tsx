@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Archivo, Inter } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-jakarta",
-  weight: ["600", "700", "800"],
+  variable: "--font-archivo",
+  weight: ["700", "800", "900"],
 });
 
 const inter = Inter({
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className={`${jakarta.variable} ${inter.variable}`}>
+    <html lang="ja" className={`${archivo.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   );
