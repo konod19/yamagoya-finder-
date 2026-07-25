@@ -17,24 +17,29 @@ const config: Config = {
           light: "#3E6350",
           dark: "#1B2F25",
         },
-        ochre: {
-          DEFAULT: "#A8763A",
-          light: "#C79A5F",
+        trail: {
+          DEFAULT: "#E2572B",
+          light: "#F0946B",
+          dark: "#B8431E",
         },
-        line: "#DDD8CC",
+        line: "#E4E0D4",
         blaze: {
           high: "#3E6350",
-          mid: "#B8863F",
-          low: "#8B877A",
+          mid: "#C6862F",
+          low: "#9C978A",
+        },
+        tier: {
+          low: "#7FA65C",
+          mid: "#3E7DB8",
+          high: "#5B4E8C",
         },
       },
       fontFamily: {
-        display: ["var(--font-fraunces)", "serif"],
+        display: ["var(--font-jakarta)", "sans-serif"],
         sans: ["var(--font-inter)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
       },
       borderRadius: {
-        card: "10px",
+        card: "18px",
       },
     },
   },
