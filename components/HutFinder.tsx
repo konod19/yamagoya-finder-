@@ -1,17 +1,35 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Hut, ElevationTier, getElevationTier, hasFeature } from "@/types/hut";
+import {
+  Hut,
+  ElevationTier,
+  getElevationTier,
+  hasFeature,
+  DifficultyTier,
+  getDifficultyTier,
+  SummitTimeTier,
+  getSummitTimeTier,
+  HAZARD_TAGS,
+  HazardTag,
+  hasHazardTag,
+} from "@/types/hut";
 import HutCard from "./HutCard";
+import { FilterChip } from "./FilterChip";
 
 const ELEVATION_TIERS: ElevationTier[] = ["低山", "中山", "高山"];
+const DIFFICULTY_TIERS: DifficultyTier[] = ["初級", "中級", "上級"];
+const SUMMIT_TIME_TIERS: SummitTimeTier[] = ["4時間以下", "6時間以下", "8時間以下", "それ以上"];
 
 export default function HutFinder({ huts }: { huts: Hut[] }) {
   const [query, setQuery] = useState("");
   const [area, setArea] = useState<string>("すべて");
   const [tier, setTier] = useState<ElevationTier | "すべて">("すべて");
+  const [difficulty, setDifficulty] = useState<DifficultyTier | "すべて">("すべて");
+  const [summitTime, setSummitTime] = useState<SummitTimeTier | "すべて">("すべて");
   const [waterOnly, setWaterOnly] = useState(false);
   const [signalOnly, setSignalOnly] = useState(false);
+  const [excludedHazards, setExcludedHazards] = useState<Set<HazardTag>>(new Set());
 
   const areas = useMemo(() => {
     const set = new Set<string>();
@@ -21,47 +39,77 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
     return ["すべて", ...Array.from(set).sort()];
   }, [huts]);
 
+  const toggleHazard = (tag: HazardTag) => {
+    setExcludedHazards((prev) => {
+      const next = new Set(prev);
+      if (next.has(tag)) {
+        next.delete(tag);
+      } else {
+        next.add(tag);
+      }
+      return next;
+    });
+  };
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return huts.filter((h) => {
       if (area !== "すべて" && h.area !== area) return false;
-      if (tier !== "すべて" && getElevationTier(h.elevation_text) !== tier) return false;
+      if (tier !== "すべて" && getElevationTier(h.hut_elevation_text) !== tier) return false;
+      if (difficulty !== "すべて" && getDifficultyTier(h) !== difficulty) return false;
+      if (summitTime !== "すべて" && getSummitTimeTier(h.summit_time_hours_text) !== summitTime)
+        return false;
       if (waterOnly && !hasFeature(h.water_info)) return false;
       if (signalOnly && !hasFeature(h.signal_info)) return false;
+      if (
+        excludedHazards.size > 0 &&
+        HAZARD_TAGS.some((t) => excludedHazards.has(t) && hasHazardTag(h, t))
+      )
+        return false;
       if (q) {
         const haystack = `${h.name} ${h.mountain_name ?? ""} ${h.features ?? ""}`.toLowerCase();
         if (!haystack.includes(q)) return false;
       }
       return true;
     });
-  }, [huts, query, area, tier, waterOnly, signalOnly]);
+  }, [huts, query, area, tier, difficulty, summitTime, waterOnly, signalOnly, excludedHazards]);
 
   const resetFilters = () => {
     setQuery("");
     setArea("すべて");
     setTier("すべて");
+    setDifficulty("すべて");
+    setSummitTime("すべて");
     setWaterOnly(false);
     setSignalOnly(false);
+    setExcludedHazards(new Set());
   };
 
   const hasActiveFilters =
-    query !== "" || area !== "すべて" || tier !== "すべて" || waterOnly || signalOnly;
+    query !== "" ||
+    area !== "すべて" ||
+    tier !== "すべて" ||
+    difficulty !== "すべて" ||
+    summitTime !== "すべて" ||
+    waterOnly ||
+    signalOnly ||
+    excludedHazards.size > 0;
 
   return (
     <div>
       <div className="mb-8 rounded-card border border-line bg-surface p-5">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <label className="flex flex-col gap-1.5 text-sm text-muted lg:col-span-2">
-            小屋名・山名・特徴で検索
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="例: 稜線, 涸沢, テント"
-              className="focus-ring rounded-md border border-line bg-mist px-3 py-2 text-sm text-ink"
-            />
-          </label>
+        <label className="flex flex-col gap-1.5 text-sm text-muted">
+          小屋名・山名・特徴で検索
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="例: 稜線, 涸沢, テント"
+            className="focus-ring rounded-md border border-line bg-mist px-3 py-2 text-sm text-ink"
+          />
+        </label>
 
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <label className="flex flex-col gap-1.5 text-sm text-muted">
             エリア
             <select
@@ -78,7 +126,7 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
           </label>
 
           <label className="flex flex-col gap-1.5 text-sm text-muted">
-            標高帯
+            標高帯(山小屋)
             <select
               value={tier}
               onChange={(e) => setTier(e.target.value as ElevationTier | "すべて")}
@@ -92,6 +140,50 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
               ))}
             </select>
           </label>
+
+          <label className="flex flex-col gap-1.5 text-sm text-muted">
+            難易度
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value as DifficultyTier | "すべて")}
+              className="focus-ring rounded-md border border-line bg-mist px-3 py-2 text-sm text-ink"
+            >
+              <option value="すべて">すべて</option>
+              {DIFFICULTY_TIERS.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1.5 text-sm text-muted">
+            山頂までの目安時間
+            <select
+              value={summitTime}
+              onChange={(e) => setSummitTime(e.target.value as SummitTimeTier | "すべて")}
+              className="focus-ring rounded-md border border-line bg-mist px-3 py-2 text-sm text-ink"
+            >
+              <option value="すべて">すべて</option>
+              {SUMMIT_TIME_TIERS.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-sm text-muted">避けたい条件:</span>
+          {HAZARD_TAGS.map((tagName) => (
+            <FilterChip
+              key={tagName}
+              label={tagName}
+              active={excludedHazards.has(tagName)}
+              onClick={() => toggleHazard(tagName)}
+            />
+          ))}
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-4">

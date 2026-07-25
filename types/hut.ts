@@ -3,8 +3,11 @@ export type Hut = {
   name: string;
   area: string | null;
   mountain_name: string | null;
-  elevation_text: string | null;
+  hut_elevation_text: string | null;
+  summit_elevation_text: string | null;
   operating_period: string | null;
+  season_open_text: string | null;
+  season_close_text: string | null;
   capacity_text: string | null;
   reservation_method: string | null;
   water_info: string | null;
@@ -15,6 +18,9 @@ export type Hut = {
   price_text: string | null;
   correction_note: string | null;
   image_url: string | null;
+  difficulty_tier: string | null;
+  hazard_tags: string[];
+  summit_time_hours_text: string | null;
   created_at: string | null;
 };
 
@@ -55,4 +61,42 @@ export function getPriceBadge(priceText: string | null): string | null {
   const num = Number(match[1].replace(/,/g, ""));
   if (!Number.isFinite(num) || num <= 0) return null;
   return `¥${num.toLocaleString("ja-JP")}〜`;
+}
+
+export type DifficultyTier = "初級" | "中級" | "上級" | "不明";
+
+/** difficulty_tier の値を既知の3段階に正規化する。想定外の値は不明扱い。 */
+export function getDifficultyTier(hut: Hut): DifficultyTier {
+  const t = hut.difficulty_tier;
+  if (t === "初級" || t === "中級" || t === "上級") return t;
+  return "不明";
+}
+
+export type SummitTimeTier = "4時間以下" | "6時間以下" | "8時間以下" | "それ以上" | "不明";
+
+/** "6" や "約6.5" のような文字列から山頂までの目安時間(時間)を取り出す。取れなければnull。 */
+export function parseSummitTimeHours(text: string | null): number | null {
+  if (!text) return null;
+  const match = text.match(/(\d+(\.\d+)?)/);
+  if (!match) return null;
+  const num = Number(match[1]);
+  return Number.isFinite(num) ? num : null;
+}
+
+export function getSummitTimeTier(text: string | null): SummitTimeTier {
+  const h = parseSummitTimeHours(text);
+  if (h === null) return "不明";
+  if (h <= 4) return "4時間以下";
+  if (h <= 6) return "6時間以下";
+  if (h <= 8) return "8時間以下";
+  return "それ以上";
+}
+
+/** ハザードタグの正規セット(フィルターUI・カード表示で共有) */
+export const HAZARD_TAGS = ["梯子あり", "鎖場あり", "ヘルメット推奨"] as const;
+export type HazardTag = (typeof HAZARD_TAGS)[number];
+
+/** hut.hazard_tags に指定タグが含まれるか判定 */
+export function hasHazardTag(hut: Hut, tag: HazardTag): boolean {
+  return hut.hazard_tags.includes(tag);
 }

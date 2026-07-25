@@ -1,9 +1,24 @@
-import { Hut, getElevationTier, hasFeature, getPriceBadge } from "@/types/hut";
+import {
+  Hut,
+  getElevationTier,
+  hasFeature,
+  getPriceBadge,
+  getDifficultyTier,
+  DifficultyTier,
+  getSummitTimeTier,
+} from "@/types/hut";
 
 const CONFIDENCE_DOT: Record<string, string> = {
   高: "bg-blaze-high",
   中: "bg-blaze-mid",
   低: "bg-blaze-low",
+};
+
+const DIFFICULTY_BADGE_CLASS: Record<DifficultyTier, string> = {
+  初級: "rounded-sm bg-pine/10 px-2.5 py-1 font-semibold text-pine",
+  中級: "rounded-sm bg-mist px-2.5 py-1 font-semibold text-ink",
+  上級: "rounded-sm bg-trail/10 px-2.5 py-1 font-semibold text-trail",
+  不明: "",
 };
 
 const TIER_STROKE: Record<string, string> = {
@@ -37,6 +52,15 @@ function SignalIcon() {
   );
 }
 
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M10 6v4l3 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /** 等高線(トポグラフィックコンター)モチーフのプレースホルダー */
 function ContourPlaceholder({ tier }: { tier: string }) {
   const stroke = TIER_STROKE[tier] ?? TIER_STROKE["不明"];
@@ -58,11 +82,13 @@ function ContourPlaceholder({ tier }: { tier: string }) {
 }
 
 export default function HutCard({ hut }: { hut: Hut }) {
-  const tier = getElevationTier(hut.elevation_text);
+  const tier = getElevationTier(hut.hut_elevation_text);
   const water = hasFeature(hut.water_info);
   const signal = hasFeature(hut.signal_info);
   const confidenceDot = CONFIDENCE_DOT[hut.information_confidence ?? "低"] ?? CONFIDENCE_DOT["低"];
   const priceBadge = getPriceBadge(hut.price_text);
+  const difficulty = getDifficultyTier(hut);
+  const summitTimeTier = getSummitTimeTier(hut.summit_time_hours_text);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-card border border-line bg-surface transition-all duration-200 hover:-translate-y-1 hover:shadow-xl">
@@ -102,14 +128,42 @@ export default function HutCard({ hut }: { hut: Hut }) {
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           <span className="rounded-sm bg-pine/10 px-2.5 py-1 font-semibold tabular-nums text-pine">
             {tier}
-            {hut.elevation_text ? `(${hut.elevation_text}m)` : ""}
+            {hut.hut_elevation_text ? `(${hut.hut_elevation_text}m)` : ""}
           </span>
+          {hut.summit_elevation_text && (
+            <span className="rounded-sm bg-mist px-2.5 py-1 text-muted">
+              山頂 {hut.summit_elevation_text}m
+            </span>
+          )}
+          {difficulty !== "不明" && (
+            <span className={DIFFICULTY_BADGE_CLASS[difficulty]}>難易度: {difficulty}</span>
+          )}
           {hut.operating_period && (
             <span className="rounded-sm bg-mist px-2.5 py-1 text-muted">{hut.operating_period}</span>
           )}
+          {(hut.season_open_text || hut.season_close_text) && (
+            <span className="rounded-sm bg-mist px-2.5 py-1 text-muted">
+              2026年{hut.season_open_text ? ` ${hut.season_open_text}山開き` : ""}
+              {hut.season_open_text && hut.season_close_text ? " 〜 " : ""}
+              {hut.season_close_text ? `${hut.season_close_text}山閉じ` : ""}
+            </span>
+          )}
         </div>
 
-        <div className="mt-3 flex items-center gap-4 text-xs text-muted">
+        {hut.hazard_tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {hut.hazard_tags.map((tagName) => (
+              <span
+                key={tagName}
+                className="rounded-sm border border-line bg-mist px-2 py-0.5 text-[11px] text-muted"
+              >
+                {tagName}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-muted">
           <span className="flex items-center gap-1.5">
             <DropIcon />
             水場 {water ? "あり" : hut.water_info === "不明" ? "不明" : "なし"}
@@ -118,6 +172,12 @@ export default function HutCard({ hut }: { hut: Hut }) {
             <SignalIcon />
             電波 {signal ? "あり" : hut.signal_info === "不明" ? "不明" : "なし"}
           </span>
+          {summitTimeTier !== "不明" && (
+            <span className="flex items-center gap-1.5">
+              <ClockIcon />
+              山頂まで {summitTimeTier}
+            </span>
+          )}
         </div>
 
         {hut.features && (
