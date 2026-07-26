@@ -44,7 +44,9 @@ export default async function Home() {
             <span className="inline-block whitespace-nowrap">山小屋を、迷わず</span><wbr /><span className="inline-block whitespace-nowrap text-trail">見つける。</span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-mist/70">
-            <span className="inline-block whitespace-nowrap">エリア・標高・水場・電波の条件で</span><wbr /><span className="inline-block whitespace-nowrap">絞り込んで、</span><wbr /><span className="inline-block whitespace-nowrap">次の登山で</span><wbr /><span className="inline-block whitespace-nowrap">泊まりやすい</span><wbr /><span className="inline-block whitespace-nowrap">山小屋を</span><wbr /><span className="inline-block whitespace-nowrap">探せます。</span>
+            <span className="inline-block whitespace-nowrap">エリア・標高・水場・電波の条件で絞り込んで</span>
+            <br />
+            <span className="inline-block whitespace-nowrap">次の登山で</span><wbr /><span className="inline-block whitespace-nowrap">泊まりやすい</span><wbr /><span className="inline-block whitespace-nowrap">山小屋を</span><wbr /><span className="inline-block whitespace-nowrap">探せます。</span>
           </p>
           <Link
             href="/gear"
