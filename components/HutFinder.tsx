@@ -18,6 +18,12 @@ import HutCard from "./HutCard";
 import { FilterChip } from "./FilterChip";
 
 const ELEVATION_TIERS: ElevationTier[] = ["低山", "中山", "高山"];
+const ELEVATION_TIER_LABELS: Record<ElevationTier, string> = {
+  低山: "低山(1500m未満)",
+  中山: "中山(1500〜2500m)",
+  高山: "高山(2500m以上)",
+  不明: "不明",
+};
 const DIFFICULTY_TIERS: DifficultyTier[] = ["初級", "中級", "上級"];
 const SUMMIT_TIME_TIERS: SummitTimeTier[] = ["4時間以下", "6時間以下", "8時間以下", "それ以上"];
 
@@ -135,7 +141,7 @@ export default function HutFinder({ huts }: { huts: Hut[] }) {
               <option value="すべて">すべて</option>
               {ELEVATION_TIERS.map((t) => (
                 <option key={t} value={t}>
-                  {t}
+                  {ELEVATION_TIER_LABELS[t]}
                 </option>
               ))}
             </select>
