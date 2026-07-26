@@ -64,20 +64,6 @@ export function getPriceBadge(priceText: string | null): string | null {
   return `¥${num.toLocaleString("ja-JP")}〜`;
 }
 
-/**
- * price_text中に登場する全ての金額(円)を抽出し、その最小値〜最大値を宿泊費レンジとして返す。
- * 例: "1泊2食14000円/素泊まり9000円" → {min:9000, max:14000}。金額が見つからなければnull。
- */
-export function getPriceRange(priceText: string | null): { min: number; max: number } | null {
-  if (!priceText) return null;
-  const matches = [...priceText.matchAll(/([0-9][0-9,]{3,7})\s*円/g)];
-  const nums = matches
-    .map((m) => Number(m[1].replace(/,/g, "")))
-    .filter((n) => Number.isFinite(n) && n > 0);
-  if (nums.length === 0) return null;
-  return { min: Math.min(...nums), max: Math.max(...nums) };
-}
-
 export type DifficultyTier = "初級" | "中級" | "上級" | "不明";
 
 /** difficulty_tier の値を既知の3段階に正規化する。想定外の値は不明扱い。 */

@@ -220,10 +220,10 @@ export default function HutCard({ hut }: { hut: Hut }) {
             <p className="flex items-center justify-center text-center text-xs text-muted">公式サイト未確認</p>
           )}
           <Link
-            href={`/gear?hutId=${hut.id}`}
+            href="/gear"
             className="focus-ring inline-flex items-center justify-center rounded-sm border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-pine hover:text-pine"
           >
-            総費用を計算
+            おすすめ装備を見る
           </Link>
         </div>
 

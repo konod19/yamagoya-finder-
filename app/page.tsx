@@ -41,7 +41,7 @@ export default async function Home() {
             href="/gear"
             className="focus-ring mt-4 inline-block text-sm text-trail-light underline underline-offset-4 hover:text-trail"
           >
-            → 装備診断・総費用シミュレーターを使う
+            → コスパ最強装備一覧を見る
           </Link>
         </div>
       </section>
