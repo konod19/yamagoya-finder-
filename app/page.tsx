@@ -38,10 +38,17 @@ export default async function Home() {
             <span className="h-1.5 w-1.5 bg-trail" aria-hidden="true" />
             日本の山小屋データベース ・ {huts.length}件掲載中
           </div>
-          <h1 className="font-display text-4xl font-black uppercase leading-[1.05] tracking-tight text-mist sm:text-6xl">
-            あなたに合う
-            <br />
-            <span className="inline-block whitespace-nowrap">山小屋を、迷わず</span><wbr /><span className="inline-block whitespace-nowrap text-trail">見つける。</span>
+          <h1 className="font-display text-3xl font-black uppercase leading-[1.15] tracking-tight text-mist sm:text-6xl sm:leading-[1.05]">
+            <span className="sm:hidden">
+              あなたに合う山小屋を、
+              <br />
+              迷わず<span className="text-trail">見つける。</span>
+            </span>
+            <span className="hidden sm:inline">
+              あなたに合う
+              <br />
+              <span className="inline-block whitespace-nowrap">山小屋を、迷わず</span><wbr /><span className="inline-block whitespace-nowrap text-trail">見つける。</span>
+            </span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-mist/70">
             <span className="inline-block whitespace-nowrap">エリア・標高・水場・電波の条件で絞り込んで</span>
