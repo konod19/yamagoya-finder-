@@ -40,14 +40,14 @@ export default async function Home() {
           </div>
           <h1 className="font-display text-3xl font-black uppercase leading-[1.15] tracking-tight text-mist sm:text-6xl sm:leading-[1.05]">
             <span className="sm:hidden">
-              あなたに合う山小屋を、
+              あなたに合う山小屋を
               <br />
               迷わず<span className="text-trail">見つける。</span>
             </span>
             <span className="hidden sm:inline">
               あなたに合う
               <br />
-              <span className="inline-block whitespace-nowrap">山小屋を、迷わず</span><wbr /><span className="inline-block whitespace-nowrap text-trail">見つける。</span>
+              <span className="inline-block whitespace-nowrap">山小屋を迷わず</span><wbr /><span className="inline-block whitespace-nowrap text-trail">見つける。</span>
             </span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-mist/70">
