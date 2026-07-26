@@ -24,8 +24,16 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="bg-charcoal">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="relative overflow-hidden bg-charcoal">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://sysyrgcmltiwgdfitgno.supabase.co/storage/v1/object/public/hut-photos/hero-kitadake.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-charcoal/70" aria-hidden="true" />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mb-5 inline-flex items-center gap-2 rounded-sm border border-trail/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-trail-light">
             <span className="h-1.5 w-1.5 bg-trail" aria-hidden="true" />
             日本の山小屋データベース ・ {huts.length}件掲載中
