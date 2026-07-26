@@ -15,7 +15,8 @@ async function getHuts(): Promise<Hut[]> {
     console.error("[getHuts] Supabase error:", error.message);
     return [];
   }
-  return (data ?? []) as Hut[];
+  // 写真がある山小屋を先に表示する(Array.sortは安定ソートなので、id順は各グループ内で維持される)
+  return ((data ?? []) as Hut[]).sort((a, b) => (a.image_url ? 0 : 1) - (b.image_url ? 0 : 1));
 }
 
 export default async function Home() {
