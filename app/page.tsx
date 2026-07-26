@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Hut } from "@/types/hut";
 import HutFinder from "@/components/HutFinder";
@@ -36,6 +37,12 @@ export default async function Home() {
           <p className="mt-5 max-w-xl text-base text-mist/70">
             エリア・標高・水場・電波の条件で絞り込んで、次の登山で泊まりやすい山小屋を探せます。
           </p>
+          <Link
+            href="/gear"
+            className="focus-ring mt-4 inline-block text-sm text-trail-light underline underline-offset-4 hover:text-trail"
+          >
+            → 装備診断・総費用シミュレーターを使う
+          </Link>
         </div>
       </section>
 

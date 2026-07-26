@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Hut,
   getElevationTier,
@@ -205,18 +206,26 @@ export default function HutCard({ hut }: { hut: Hut }) {
           )}
         </div>
 
-        {hut.website_url && hut.website_url !== "不明" ? (
-          <a
-            href={hut.website_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="focus-ring mt-4 inline-flex items-center justify-center rounded-sm bg-pine px-4 py-2.5 text-sm font-semibold text-mist transition-colors hover:bg-pine-dark"
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {hut.website_url && hut.website_url !== "不明" ? (
+            <a
+              href={hut.website_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="focus-ring inline-flex items-center justify-center rounded-sm bg-pine px-4 py-2.5 text-sm font-semibold text-mist transition-colors hover:bg-pine-dark"
+            >
+              公式サイトを見る
+            </a>
+          ) : (
+            <p className="flex items-center justify-center text-center text-xs text-muted">公式サイト未確認</p>
+          )}
+          <Link
+            href={`/gear?hutId=${hut.id}`}
+            className="focus-ring inline-flex items-center justify-center rounded-sm border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-pine hover:text-pine"
           >
-            公式サイトを見る
-          </a>
-        ) : (
-          <p className="mt-4 text-center text-xs text-muted">公式サイト未確認</p>
-        )}
+            総費用を計算
+          </Link>
+        </div>
 
         {hut.correction_note && (
           <p className="mt-3 text-[11px] leading-relaxed text-muted">補足: {hut.correction_note}</p>
