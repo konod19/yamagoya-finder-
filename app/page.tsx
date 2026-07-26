@@ -41,10 +41,10 @@ export default async function Home() {
           <h1 className="font-display text-4xl font-black uppercase leading-[1.05] tracking-tight text-mist sm:text-6xl">
             あなたに合う
             <br />
-            山小屋を、迷わず<span className="text-trail">見つける。</span>
+            山小屋を、迷わず<wbr /><span className="text-trail">見つける。</span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-mist/70">
-            エリア・標高・水場・電波の条件で絞り込んで、次の登山で泊まりやすい山小屋を探せます。
+            エリア・標高・水場・電波の条件で絞り込んで、<wbr />次の登山で<wbr />泊まりやすい<wbr />山小屋を<wbr />探せます。
           </p>
           <Link
             href="/gear"
