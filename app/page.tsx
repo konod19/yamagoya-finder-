@@ -32,7 +32,7 @@ export default async function Home() {
           className="absolute inset-0 h-full w-full object-cover"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-charcoal/70" aria-hidden="true" />
+        <div className="absolute inset-0 bg-charcoal/55" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mb-5 inline-flex items-center gap-2 rounded-sm border border-trail/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-trail-light">
             <span className="h-1.5 w-1.5 bg-trail" aria-hidden="true" />
