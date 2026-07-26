@@ -1,21 +1,27 @@
 import { GearItem } from "@/types/gear";
 
-export default function GearItemCard({ item }: { item: GearItem }) {
+export default function GearItemCard({ item, index }: { item: GearItem; index: number }) {
   return (
-    <div className="flex flex-col rounded-card border border-line bg-surface p-4">
-      <h4 className="font-display text-sm font-bold leading-snug text-ink">{item.name}</h4>
-      <p className="mt-1 text-xs text-muted">{item.price_range ?? "価格要確認"}</p>
+    <div className="rounded-card border border-line bg-surface p-5">
+      <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
+        {String(index + 1).padStart(2, "0")} ・ {item.category}
+      </div>
+      <h3 className="font-display text-lg font-bold text-ink">{item.name ?? "選定中"}</h3>
+      {item.price_range && <p className="mt-1 text-xs text-muted">{item.price_range}</p>}
+      {item.review_text && (
+        <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-ink/80">{item.review_text}</p>
+      )}
       {item.product_url ? (
         <a
           href={item.product_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring mt-3 inline-flex items-center justify-center rounded-sm bg-pine px-3 py-2 text-xs font-semibold text-mist transition-colors hover:bg-pine-dark"
+          className="focus-ring mt-4 inline-flex items-center justify-center rounded-sm bg-pine px-4 py-2 text-xs font-semibold text-mist transition-colors hover:bg-pine-dark"
         >
           公式ページを見る
         </a>
       ) : (
-        <p className="mt-3 text-center text-[11px] text-muted">リンク準備中</p>
+        <p className="mt-4 text-xs text-muted">リンク準備中</p>
       )}
     </div>
   );
