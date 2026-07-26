@@ -21,10 +21,18 @@ export default async function GearPage() {
 
   return (
     <main>
-      <section className="bg-charcoal">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="relative overflow-hidden bg-charcoal">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://sysyrgcmltiwgdfitgno.supabase.co/storage/v1/object/public/hut-photos/hero-gear.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-charcoal/80" aria-hidden="true" />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <h1 className="font-display text-4xl font-black uppercase leading-[1.05] tracking-tight text-mist sm:text-5xl">
-            コスパ<span className="text-trail">最強装備</span>一覧
+            コスパ<span className="text-trail-light">最強装備</span>一覧
           </h1>
           <p className="mt-5 max-w-xl text-base text-mist/70">
             持ち物カテゴリごとに、個人的に選んだおすすめを1つだけ紹介します。
