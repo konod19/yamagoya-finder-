@@ -1,11 +1,9 @@
 import { GearItem } from "@/types/gear";
 
-export default function GearItemCard({ item, index }: { item: GearItem; index: number }) {
+export default function GearItemCard({ item }: { item: GearItem }) {
   return (
     <div className="rounded-card border border-line bg-surface p-5">
-      <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
-        {String(index + 1).padStart(2, "0")} ・ {item.category}
-      </div>
+      <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">{item.category}</div>
       <h3 className="font-display text-lg font-bold text-ink">{item.name ?? "選定中"}</h3>
       {item.price_range && <p className="mt-1 text-xs text-muted">{item.price_range}</p>}
       {item.review_text && (
