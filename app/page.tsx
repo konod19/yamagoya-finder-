@@ -71,6 +71,13 @@ export default async function Home() {
           <p>
             料金・予約方法・営業期間は変更されることがあります。最終的な判断は必ず各山小屋の公式情報でご確認ください。
           </p>
+          <p className="mt-2">
+            情報の誤りに気づいた方は
+            <Link href="/contact" className="text-trail underline underline-offset-2 hover:text-trail-dark">
+              こちら
+            </Link>
+            からお知らせください。
+          </p>
         </footer>
       </div>
     </main>

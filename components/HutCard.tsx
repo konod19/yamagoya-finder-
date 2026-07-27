@@ -140,6 +140,12 @@ export default function HutCard({ hut }: { hut: Hut }) {
           {hut.summit_elevation_text && ` ・ 山頂 ${hut.summit_elevation_text}m`}
         </p>
 
+        {(hut.information_confidence ?? "低") === "低" && (
+          <p className="mt-2 rounded-sm border border-trail/40 bg-trail/10 px-2.5 py-1.5 text-xs font-semibold text-trail">
+            情報確度が低いため、必ず公式サイトでご確認ください
+          </p>
+        )}
+
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           <span className="rounded-sm bg-pine/10 px-2.5 py-1 font-semibold text-pine">{tier}</span>
           {difficulty !== "不明" && (

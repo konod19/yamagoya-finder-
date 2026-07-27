@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -27,7 +28,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja" className={`${archivo.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

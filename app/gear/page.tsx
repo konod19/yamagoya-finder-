@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { GearItem } from "@/types/gear";
 import GearItemCard from "@/components/GearItemCard";
@@ -47,6 +48,13 @@ export default async function GearPage() {
         </div>
         <footer className="mt-16 border-t border-line pt-6 text-xs text-muted">
           <p>紹介する装備・価格帯は目安です。天候・経験・体調に応じて必ずご自身で最終判断してください。</p>
+          <p className="mt-2">
+            情報の誤りに気づいた方は
+            <Link href="/contact" className="text-trail underline underline-offset-2 hover:text-trail-dark">
+              こちら
+            </Link>
+            からお知らせください。
+          </p>
         </footer>
       </div>
     </main>
