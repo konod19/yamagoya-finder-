@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "山小屋ファインダー | あなたに合う山小屋を探す",
   description:
     "登山初心者〜中級者向けに、経験・エリア・標高・水場・アクセスの条件からおすすめの山小屋を提案します。",
+  verification: {
+    google: "02EVJgfSSXhyEsOuXOutJmsU46e1EVewMUa67359c2E",
+  },
 };
 
 export default function RootLayout({
