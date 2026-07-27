@@ -73,6 +73,21 @@ export function getDifficultyTier(hut: Hut): DifficultyTier {
   return "不明";
 }
 
+/** 情報確度バッジのドット色(HutCard・詳細ページで共有) */
+export const CONFIDENCE_DOT: Record<string, string> = {
+  高: "bg-blaze-high",
+  中: "bg-blaze-mid",
+  低: "bg-blaze-low",
+};
+
+/** 難易度バッジのスタイル(HutCard・詳細ページで共有) */
+export const DIFFICULTY_BADGE_CLASS: Record<DifficultyTier, string> = {
+  初級: "rounded-sm bg-pine/10 px-2.5 py-1 font-semibold text-pine",
+  中級: "rounded-sm bg-mist px-2.5 py-1 font-semibold text-ink",
+  上級: "rounded-sm bg-trail/10 px-2.5 py-1 font-semibold text-trail",
+  不明: "",
+};
+
 export type SummitTimeTier = "4時間以下" | "6時間以下" | "8時間以下" | "それ以上" | "不明";
 
 /** "6" や "約6.5" のような文字列から山頂までの目安時間(時間)を取り出す。取れなければnull。 */
