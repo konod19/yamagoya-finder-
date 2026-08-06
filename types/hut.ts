@@ -23,6 +23,7 @@ export type Hut = {
   hazard_tags: string[];
   summit_time_hours_text: string | null;
   created_at: string | null;
+  mountain_id: number | null;
 };
 
 export type ElevationTier = "低山" | "中山" | "高山" | "不明";

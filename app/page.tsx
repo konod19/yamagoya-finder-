@@ -55,12 +55,20 @@ export default async function Home() {
             <br />
             <span className="inline-block whitespace-nowrap">次の登山で</span><wbr /><span className="inline-block whitespace-nowrap">泊まりやすい</span><wbr /><span className="inline-block whitespace-nowrap">山小屋を</span><wbr /><span className="inline-block whitespace-nowrap">探せます。</span>
           </p>
-          <Link
-            href="/gear"
-            className="focus-ring mt-4 inline-block text-sm text-trail-light underline underline-offset-4 hover:text-trail"
-          >
-            → コスパ最強装備一覧を見る
-          </Link>
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+            <Link
+              href="/mountains"
+              className="focus-ring inline-block text-sm text-trail-light underline underline-offset-4 hover:text-trail"
+            >
+              → 山から山小屋を探す
+            </Link>
+            <Link
+              href="/gear"
+              className="focus-ring inline-block text-sm text-trail-light underline underline-offset-4 hover:text-trail"
+            >
+              → コスパ最強装備一覧を見る
+            </Link>
+          </div>
         </div>
       </section>
 
