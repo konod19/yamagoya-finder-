@@ -42,7 +42,7 @@ export default function MountainCard({ mountain }: { mountain: Mountain }) {
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           {mountain.elevation_text && (
             <span className="rounded-sm bg-pine/10 px-2.5 py-1 font-semibold text-pine">
-              標高約{mountain.elevation_text}m
+              標高{mountain.elevation_text}m
             </span>
           )}
           {difficulty !== "不明" && (
