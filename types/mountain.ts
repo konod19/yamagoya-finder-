@@ -11,5 +11,8 @@ export type Mountain = {
   area: string | null;
   elevation_text: string | null;
   difficulty_tier: DifficultyTier | null;
+  prefecture: string | null;
+  image_url: string | null;
+  image_credit: string | null;
   huts: MountainHut[];
 };

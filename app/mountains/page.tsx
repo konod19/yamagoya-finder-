@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
-import { DIFFICULTY_BADGE_CLASS, DifficultyTier } from "@/types/hut";
 import { Mountain } from "@/types/mountain";
+import MountainFinder from "@/components/MountainFinder";
 
 export const revalidate = 3600;
 
@@ -13,7 +13,7 @@ export const metadata = {
 async function getMountains(): Promise<Mountain[]> {
   const { data, error } = await supabase
     .from("mountains")
-    .select("id, name, area, elevation_text, difficulty_tier, huts(id, name)")
+    .select("id, name, area, elevation_text, difficulty_tier, prefecture, image_url, image_credit, huts(id, name)")
     .order("name", { ascending: true });
 
   if (error) {
@@ -21,8 +21,12 @@ async function getMountains(): Promise<Mountain[]> {
     return [];
   }
   const mountains = (data ?? []) as Mountain[];
-  // 小屋が複数ある山(比較価値が高い)を先に表示
-  return [...mountains].sort((a, b) => b.huts.length - a.huts.length);
+  // 小屋が複数ある山(比較価値が高い)を先に、写真がある山を先に表示
+  return [...mountains].sort((a, b) => {
+    const photoDiff = (a.image_url ? 0 : 1) - (b.image_url ? 0 : 1);
+    if (photoDiff !== 0) return photoDiff;
+    return b.huts.length - a.huts.length;
+  });
 }
 
 export default async function MountainsPage() {
@@ -31,7 +35,7 @@ export default async function MountainsPage() {
   return (
     <main>
       <section className="bg-charcoal">
-        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <h1 className="font-display text-3xl font-black uppercase leading-[1.1] tracking-tight text-mist sm:text-4xl">
             山から<span className="text-trail">山小屋</span>を探す
           </h1>
@@ -41,40 +45,8 @@ export default async function MountainsPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-        <p className="text-sm text-muted">{mountains.length} 座の山を掲載中</p>
-
-        <div className="mt-6 divide-y divide-line border-t border-line">
-          {mountains.map((mountain) => {
-            const difficulty = (mountain.difficulty_tier ?? "不明") as DifficultyTier;
-            return (
-              <div key={mountain.id} className="py-5">
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <h2 className="font-display text-lg font-extrabold text-ink">{mountain.name}</h2>
-                  {mountain.area && <span className="text-sm text-muted">{mountain.area}</span>}
-                  {mountain.elevation_text && (
-                    <span className="text-sm text-muted">標高{mountain.elevation_text}m</span>
-                  )}
-                  {difficulty !== "不明" && (
-                    <span className={DIFFICULTY_BADGE_CLASS[difficulty]}>難易度: {difficulty}</span>
-                  )}
-                  <span className="text-xs text-muted">・小屋{mountain.huts.length}件</span>
-                </div>
-                <div className="mt-2.5 flex flex-wrap gap-2">
-                  {mountain.huts.map((hut) => (
-                    <Link
-                      key={hut.id}
-                      href={`/huts/${hut.id}`}
-                      className="focus-ring rounded-sm border border-line bg-surface px-3 py-1.5 text-sm text-ink transition-colors hover:border-pine hover:text-pine"
-                    >
-                      {hut.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+        <MountainFinder mountains={mountains} />
 
         <footer className="mt-16 border-t border-line pt-6 text-xs text-muted">
           <p>
