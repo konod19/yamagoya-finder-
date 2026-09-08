@@ -61,10 +61,12 @@ function HutElevationProfile({ huts }: { huts: MountainHut[] }) {
             />
             <Link
               href={`/huts/${hut.id}`}
-              className="focus-ring absolute left-5 flex -translate-y-1/2 items-baseline gap-1.5 whitespace-nowrap text-xs text-ink transition-colors hover:text-pine"
+              className="focus-ring group absolute left-5 flex -translate-y-1/2 items-baseline gap-1.5 whitespace-nowrap text-xs"
               style={{ top: `${top}px` }}
             >
-              <span className="font-semibold">{hut.name}</span>
+              <span className="font-semibold text-pine underline decoration-pine/40 underline-offset-2 group-hover:text-pine-dark">
+                {hut.name}
+              </span>
               {elev !== null && <span className="text-[11px] text-muted">約{elev}m</span>}
             </Link>
           </div>
