@@ -5,9 +5,17 @@ const BASE_URL = "https://yamagoya-finder.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: huts } = await supabase.from("huts").select("id");
+  const { data: mountains } = await supabase.from("mountains").select("id");
 
   const hutUrls: MetadataRoute.Sitemap = (huts ?? []).map((hut) => ({
     url: `${BASE_URL}/huts/${hut.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  const mountainUrls: MetadataRoute.Sitemap = (mountains ?? []).map((mountain) => ({
+    url: `${BASE_URL}/mountains/${mountain.id}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.6,
@@ -39,5 +47,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.3,
     },
     ...hutUrls,
+    ...mountainUrls,
   ];
 }
