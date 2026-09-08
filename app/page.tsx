@@ -29,8 +29,16 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="bg-charcoal">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <section className="relative overflow-hidden bg-charcoal">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://sysyrgcmltiwgdfitgno.supabase.co/storage/v1/object/public/hut-photos/hero-mountains.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-charcoal/55" aria-hidden="true" />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
           <h1 className="font-display text-3xl font-black uppercase leading-[1.1] tracking-tight text-mist sm:text-4xl">
             山から<span className="text-trail">山小屋</span>を探す
           </h1>
