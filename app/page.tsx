@@ -8,7 +8,9 @@ export const revalidate = 3600;
 async function getMountains(): Promise<Mountain[]> {
   const { data, error } = await supabase
     .from("mountains")
-    .select("id, name, area, elevation_text, difficulty_tier, prefecture, image_url, image_credit, huts(id, name)")
+    .select(
+      "id, name, area, elevation_text, difficulty_tier, prefecture, image_url, image_credit, huts(id, name, hut_elevation_text)"
+    )
     .order("name", { ascending: true });
 
   if (error) {

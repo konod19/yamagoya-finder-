@@ -3,6 +3,7 @@ import { DifficultyTier } from "./hut";
 export type MountainHut = {
   id: number;
   name: string;
+  hut_elevation_text: string | null;
 };
 
 export type Mountain = {

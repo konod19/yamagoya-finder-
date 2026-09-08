@@ -1,11 +1,59 @@
 import Link from "next/link";
-import { DIFFICULTY_BADGE_CLASS, DifficultyTier, getElevationTier } from "@/types/hut";
-import { Mountain } from "@/types/mountain";
+import { DIFFICULTY_BADGE_CLASS, DifficultyTier, getElevationTier, parseElevationMeters } from "@/types/hut";
+import { Mountain, MountainHut } from "@/types/mountain";
 import { ContourPlaceholder } from "./HutVisuals";
+
+/** 標高が高い順(山頂側が先)に並べ替える */
+function sortHutsByElevationDesc(huts: MountainHut[]): MountainHut[] {
+  return [...huts].sort((a, b) => {
+    const ea = parseElevationMeters(a.hut_elevation_text) ?? -Infinity;
+    const eb = parseElevationMeters(b.hut_elevation_text) ?? -Infinity;
+    return eb - ea;
+  });
+}
+
+/** 小屋が複数ある山向け: 標高の相対位置を縦のプロファイルで見せる */
+function HutElevationProfile({ huts }: { huts: MountainHut[] }) {
+  const sorted = sortHutsByElevationDesc(huts);
+  const elevations = sorted.map((h) => parseElevationMeters(h.hut_elevation_text));
+  const known = elevations.filter((e): e is number => e !== null);
+  const max = known.length ? Math.max(...known) : 0;
+  const min = known.length ? Math.min(...known) : 0;
+  const range = max - min;
+
+  return (
+    <div className="relative" style={{ height: `${Math.max(sorted.length, 2) * 32}px` }}>
+      <div className="absolute left-2 top-1.5 bottom-1.5 w-0.5 -translate-x-1/2 bg-line" aria-hidden="true" />
+      {sorted.map((hut, i) => {
+        const elev = elevations[i];
+        const top =
+          elev === null || range === 0 ? (i / Math.max(sorted.length - 1, 1)) * 100 : ((max - elev) / range) * 100;
+        return (
+          <div key={hut.id}>
+            <span
+              className="absolute left-2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-pine"
+              style={{ top: `${top}%` }}
+              aria-hidden="true"
+            />
+            <Link
+              href={`/huts/${hut.id}`}
+              className="focus-ring absolute left-5 flex -translate-y-1/2 items-baseline gap-1.5 whitespace-nowrap text-xs text-ink transition-colors hover:text-pine"
+              style={{ top: `${top}%` }}
+            >
+              <span className="font-semibold">{hut.name}</span>
+              {elev !== null && <span className="text-[11px] text-muted">約{elev}m</span>}
+            </Link>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function MountainCard({ mountain }: { mountain: Mountain }) {
   const tier = getElevationTier(mountain.elevation_text);
   const difficulty = (mountain.difficulty_tier ?? "不明") as DifficultyTier;
+  const hasMultipleHuts = mountain.huts.length > 1;
 
   return (
     <article className="flex flex-col overflow-hidden rounded-card border border-line bg-surface">
@@ -50,16 +98,25 @@ export default function MountainCard({ mountain }: { mountain: Mountain }) {
           )}
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-line pt-4">
-          {mountain.huts.map((hut) => (
-            <Link
-              key={hut.id}
-              href={`/huts/${hut.id}`}
-              className="focus-ring rounded-sm border border-line bg-mist px-2.5 py-1 text-xs text-ink transition-colors hover:border-pine hover:text-pine"
-            >
-              {hut.name}
-            </Link>
-          ))}
+        <div className="mt-4 border-t border-line pt-4">
+          {hasMultipleHuts ? (
+            <>
+              <p className="mb-2 text-[11px] text-muted">小屋の標高(山頂側が上)</p>
+              <HutElevationProfile huts={mountain.huts} />
+            </>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {mountain.huts.map((hut) => (
+                <Link
+                  key={hut.id}
+                  href={`/huts/${hut.id}`}
+                  className="focus-ring rounded-sm border border-line bg-mist px-2.5 py-1 text-xs text-ink transition-colors hover:border-pine hover:text-pine"
+                >
+                  {hut.name}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </article>
