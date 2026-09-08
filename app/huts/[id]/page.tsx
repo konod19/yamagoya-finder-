@@ -54,7 +54,7 @@ export default async function HutDetailPage({ params }: { params: { id: string }
   return (
     <main>
       <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
-        <Link href="/" className="focus-ring text-sm text-muted hover:text-pine">
+        <Link href="/huts" className="focus-ring text-sm text-muted hover:text-pine">
           ← 山小屋一覧に戻る
         </Link>
       </div>
