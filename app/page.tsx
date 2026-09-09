@@ -41,8 +41,14 @@ export default async function Home() {
         />
         <div className="absolute inset-0 bg-charcoal/55" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <h1 className="font-display text-3xl font-black uppercase leading-[1.1] tracking-tight text-mist sm:text-4xl">
-            山から<span className="text-trail">山小屋</span>を探す
+          <div className="mb-5 inline-flex items-center gap-2 rounded-sm border border-trail/40 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-trail-light">
+            <span className="h-1.5 w-1.5 bg-trail" aria-hidden="true" />
+            山からさがす ・ {mountains.length}座掲載中
+          </div>
+          <h1 className="font-display text-3xl font-black uppercase leading-[1.15] tracking-tight text-mist sm:text-6xl sm:leading-[1.05]">
+            山から<span className="text-trail">山小屋</span>
+            <br />
+            を探す。
           </h1>
           <p className="mt-5 max-w-xl text-base text-mist/70">
             登る山が決まっている方向けに、山ごとに山小屋をまとめました。同じ山にある小屋同士を比較したいときにご利用ください。
