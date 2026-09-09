@@ -103,28 +103,28 @@ export default async function MountainDetailPage({ params }: { params: { id: str
           {mountain.fame_text && <span className="rounded-sm bg-mist px-3 py-1.5 text-muted">{mountain.fame_text}</span>}
         </div>
 
-        <div className="mt-6 space-y-3 rounded-card border border-line bg-surface p-5 text-sm">
+        <div className="mt-6 space-y-4 rounded-card border border-line bg-surface p-5 text-sm">
           {mountain.course_time_text && (
             <p>
-              <span className="font-semibold text-ink">コースタイム: </span>
+              <span className="block font-semibold text-ink">コースタイム</span>
               <span className="text-muted">{mountain.course_time_text}</span>
             </p>
           )}
           {mountain.elevation_gain_text && (
             <p>
-              <span className="font-semibold text-ink">累積標高差・距離: </span>
+              <span className="block font-semibold text-ink">累積標高差・距離</span>
               <span className="text-muted">{mountain.elevation_gain_text}</span>
             </p>
           )}
           {mountain.trailhead_access_text && (
             <p>
-              <span className="font-semibold text-ink">登山口・アクセス: </span>
+              <span className="block font-semibold text-ink">登山口・アクセス</span>
               <span className="text-muted">{mountain.trailhead_access_text}</span>
             </p>
           )}
           {mountain.best_season_text && (
             <p>
-              <span className="font-semibold text-ink">登山適期: </span>
+              <span className="block font-semibold text-ink">登山適期</span>
               <span className="text-muted">{mountain.best_season_text}</span>
             </p>
           )}
